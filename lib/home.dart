@@ -1,5 +1,8 @@
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:webview_flutter/webview_flutter.dart';
 import 'news_model.dart';
 import 'dart:convert';
 
@@ -125,7 +128,14 @@ class NewsTile extends StatelessWidget {
     return Wrap(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewsPage(
+                    newsUrl: url,
+                    )));
+          },
           child: Container(
             child: Column(
               children: [
@@ -182,3 +192,45 @@ class NewsTile extends StatelessWidget {
     );
   }
 }
+
+class NewsPage extends StatefulWidget {
+  final String newsUrl;
+  NewsPage({this.newsUrl});
+
+
+  @override
+  State<NewsPage> createState() => _NewsPageState();
+}
+
+class _NewsPageState extends State<NewsPage> {
+  @override
+  void initState() {
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+          title: Text(
+            "News",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: Container(
+          // padding: EdgeInsets.only(top: 30),
+          child: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: widget.newsUrl,
+          ),
+        ),
+
+    );
+  }
+}
+
+
