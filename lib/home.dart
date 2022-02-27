@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   List<NewsModel> newsList = new List<NewsModel>();
   bool _loading = false;
   String query;
+  String CountryName = "India";
   List<String> countryList = [
     'Australia',
     'Belgium',
@@ -141,6 +142,8 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         Navigator.pop(context);
                         getNews(countryCode[index]);
+                        CountryName = countryList[index];
+                        setState(() {});
                       },
                       child: ListTile(
                         leading: Text(
@@ -164,10 +167,19 @@ class _HomeState extends State<Home> {
         shadowColor: Colors.green,
         backgroundColor: Colors.teal,
         title: Center(
-            child: Text(
-          "Breaking News",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        )),
+          child: Row(
+            children: [
+              Text(
+                "Breaking News ",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "($CountryName)",
+                style: TextStyle(fontSize: 20,color: Colors.greenAccent),
+              )
+            ],
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
